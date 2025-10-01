@@ -1,0 +1,40 @@
+{
+  "name": "Wedecode (Fast)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "workspaceFolder": "/workspaces/wedecode",
+  "shutdownAction": "stopContainer",
+  
+  "onCreateCommand": "npm install -g pnpm",
+  "postCreateCommand": "mkdir -p workspaces uploads output && pnpm install --shamefully-hoist && pnpm rebuild && echo '✅ 环境设置完成！正在启动开发服务器...'",
+  "postStartCommand": "echo '🔨 Building project...' && pnpm run build && echo '🚀 Starting UI server...' && pnpm run ui || echo '❌ Failed to start UI server. You can manually run: pnpm run ui'",
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-eslint"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 2000
+      }
+    },
+    "codespaces": {
+      "idleTimeout": "30m"
+    }
+  },
+  
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Dev Server",
+      "onAutoForward": "notify"
+    }
+  },
+  
+  "containerEnv": {
+    "NODE_ENV": "development"
+  }
+}
